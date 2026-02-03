@@ -1,26 +1,69 @@
-# Human-Computer Interaction for Mixed Reality  
-### Lecture & Lab Homework Blog  
 
-**Student:** Zeyu Liang  
-**Instructor:** Daniel Medeiros  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HCIMR Course Blog</title>
 
+<style>
+body {
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+  line-height: 1.6;
+}
 
-## About
+h1 {
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 10px;
+}
 
-This blog documents my lecture homework and lab exercises for the course  
-**Human-Computer Interaction for Mixed Reality**.
+h2 {
+  margin-top: 40px;
+}
 
-## Lecture Homework
+ul, ol {
+  margin-left: 20px;
+}
+</style>
 
-1. **Lecture HW 1** — Sketch and present 3 VR locomotion ideas  
-2. **Lecture HW 2** — Locomotion pitch  
-3. **Lecture HW 3** — Evaluation of locomotion technique  
-4. **Lecture HW 4** — Final presentation and demo  
+</head>
+<body>
 
-## Lab Homework
+<h1>Human-Computer Interaction for Mixed Reality</h1>
+<h3>Lecture & Lab Homework Blog</h3>
 
-1. **Lab HW 1** — Setup personal blog  
-2. **Lab HW 2** — Setup Unity environment  
-3. **Lab HW 3** — Unity Roll-A-Ball project  
-4. **Lab HW 4** — Roll-A-Ball in VR  
-5. **Lab HW 5** — Full locomotion technique implementation  
+<p>
+<b>Student:</b> Zeyu Liang<br>
+<b>Instructor:</b> Daniel Medeiros
+</p>
+
+<h2>About</h2>
+
+<p>
+This blog documents my lecture homework and lab exercises for the course
+<b>Human-Computer Interaction for Mixed Reality</b>.
+</p>
+
+<h2>Lecture Homework</h2>
+
+<ol>
+<li><b>Lecture HW 1</b> Sketch and present 3 VR locomotion ideas</li>
+<li><b>Lecture HW 2</b> Locomotion pitch</li>
+<li><b>Lecture HW 3</b> Evaluation of locomotion technique</li>
+<li><b>Lecture HW 4</b> Final presentation and demo</li>
+</ol>
+
+<h2>Lab Homework</h2>
+
+<ol>
+<li><b>Lab HW 1</b> Setup personal blog</li>
+<li><b>Lab HW 2</b> Setup Unity environment</li>
+<li><b>Lab HW 3</b> Unity Roll-A-Ball project</li>
+<li><b>Lab HW 4</b> Roll-A-Ball in VR</li>
+<li><b>Lab HW 5</b> Full locomotion technique implementation</li>
+</ol>
+
+</body>
+</html>
