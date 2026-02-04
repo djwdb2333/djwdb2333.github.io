@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lab HW 4: Roll-A-Ball in VR</title>
+
+<link rel="stylesheet" href="../../css/style.css">
+
+</head>
+
+<body>
+
+<div class="header-bar">
+  <h1>Lab HW 4: Roll-A-Ball in VR</h1>
+  <a class="back-link" href="../../index.html">Back</a>
+</div>
+
+<h2>Step 1: Create 3d project in unity and switch to Android platform
+</h2>
+<img src="images/image1.png" width="400">
+
+
+<h2>Step 2: Import Meta All-in-one SDK</h2>
+
+
+<p class="problem"><b>Problem:</b> I couldn’t find any tutorial examples to import at first, which was confusing.
+But then I checked the README file, and it actually explained everything</p>
+<img src="images/image2.png" width="400">
+
+<h2>Step 3: Install XR Plugin Management</h2>
+<img src="images/image3.png" width="400">
+
+<h2>Step 4: Create a new scene</h2>
+<img src="images/image4.png" width="400">
+
+<h2>Step 5: Setting for controllers</h2>
+<img src="images/image5.png" width="400">
+<p>Step5: setting for controllers</p>
+
+<h2>Step 6: Setup the scene</h2>
+<img src="images/image6.png" width="400">
+
+<p class="problem">
+Problem: One major problem I encountered was that, since I’m working on a MacBook, I couldn’t run or test the VR project directly on a Meta headset.
+</p>
+
+<p class="solution">
+To overcome this, I had to rely on the Meta XR Simulator for development and testing. This required configuring the project in Unity 2022, ensuring compatibility with the OpenXR plugin, and properly setting up the simulator as the active runtime. Only after completing these steps was I finally able to simulate controller and headset input on my local machine.
+</p>
+
+<img src="images/image7.png" width="400">
+
+<h2>Step 7: Add collider for roll a ball</h2>
+<img src="images/image8.png" width="400">
+
+<h2>Step 8: Add layers and assign them to different objects</h2>
+<img src="images/image9.png" width="600">
+<div>
+<img src="images/image10.png" height="200">
+<img src="images/image11.png" height="200">
+</div>
+
+
+<p class="question">
+At first, I didn’t clearly understand why I need to use layers and how they work. I thought they were like the layers in painting software. I was also wondering: since I want to detect the collider as a whole (not just the objects inside), do I need to care about the order of layers? Later, I realized that layers are just a way to label or name objects for detection. The order doesn’t matter.
+</p>
+
+<h2>Step 9: Add collider to the hand anchors and assign them to the selection layer</h2>
+<img src="images/image12.png" height="300">
+<img src="images/image13.png" height="300">
+
+<h2>Step 10: Physics Settings</h2>
+<p>disable collision between the “Roll a ball” and Selection layers in the Physics settings</p>
+<img src="images/image14.png" height="300">
+
+<h2>Step 11: Rigidbody Configuration</h2>
+<p>add rigidbody and set in different ways</p>
+<p>
+Because I want to use the trigger function, the object must have a Rigidbody. However, if “Use Gravity” is enabled, the object will fall down automatically. So for the hand anchors, I set them to Kinematic and disable gravity, while for the “Roll a ball”, I enable gravity and disable Kinematic, so it can roll and be affected by physics.
+</p>
+<img src="images/image15.png" height="400">
+<img src="images/image16.png" height="400">
+<img src="images/image17.png" height="400">
+
+<h2>Step 12: Interaction Script</h2>
+
+<p>write the interaction script and assign it to the hand anchor</p>
+<img src="images/image18.png" width="500">
+<div>
+<img src="images/image19.png" height="150">
+<img src="images/image20.png" height="150">
+</div>
+
+<p>
+In this step I wrote a script allowing the controller to pick up and release a ball in VR. When the controller enters the ball’s collider and the player pulls the trigger, the ball becomes a child of the controller and follows its movement. When the trigger is released, the ball is detached, gravity is enabled again, and the ball continues moving based on the velocity of the hand.
+</p>
+
+<h2>Direct Selection</h2>
+<img src="images/image21.png" width="400">
+<p class="problem"><b>Problem:</b> I successfully implemented the direct selection feature. I can now select and grab the ball in VR. However, the original interaction between the player and the PickUp balls (such as collecting them and making them disappear) no longer works. I’ve checked many times, including colliders, trigger settings, tags, and layers, but I still don’t know what went wrong. The PickUps are not being detected by the player anymore. I even created a new cube, enabled ‘Is Trigger’, and set its tag to ‘PickUp’, but nothing shows up in the console.</p>
+<img src="images/image22.png" width="400">
+
+<h2>Raycasting</h2>
+<p>
+I was trying to make the object’s color change when hit by the ray, but I ended up losing the material. In the end, I only managed to display the ray and use it to move the object.
+</p>
+<img src="images/image23.png" width="400">
+
