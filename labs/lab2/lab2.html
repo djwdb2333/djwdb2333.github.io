@@ -1,59 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Lab HW 2: Setup Unity Environment</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>Lab HW 2: Setup Unity Environment</title>
+        <link rel="stylesheet" href="../../css/style.css">
+    </head>
 
-<link rel="stylesheet" href="../../css/style.css">
+    <body>
+        <div class="header-bar">
+            <h1>Lab HW 2: Setup Unity Environment</h1>
+            <a class="back-link" href="../../index.html">Back</a>
+        </div>
 
-</head>
+        <p><b>Author:</b> Zeyu Liang</p>
 
-<body>
+        <p>
+        I could not open either of the two links provided in the PDF. However, I found an official tutorial on the Unity Learn platform called
+        "Create Your First Project", which I used instead.
+        </p>
 
-<div class="header-bar">
-  <h1>Lab HW 2: Setup Unity Environment</h1>
-  <a class="back-link" href="../../index.html">Back</a>
-</div>
+        <div class="two-column">
 
-<p><b>Author:</b> Zeyu Liang</p>
+            <figure>
+                <img src="images/image1.png" width="400">
+                <figcaption>Figure 1. The original tutorial link provided in the PDF could not be opened.</figcaption>
+            </figure>
 
-<p>
-I could not open either of the two links provided in the PDF. However, I found an official tutorial on the Unity Learn platform called
-"Create Your First Project", which I used instead.
-</p>
+            <figure>
+                <img src="images/image2.png" width="400">
+                <figcaption>Figure 2. The alternative official Unity Learn tutorial that I found and used.</figcaption>
+            </figure>
 
-<div class="two-column">
+        </div>
 
-<figure>
-<img src="images/image1.png" width="400">
-<figcaption>Figure 1. The original tutorial link provided in the PDF could not be opened.</figcaption>
-</figure>
+        <h2>Step 1: Check Unity Version</h2>
 
-<figure>
-<img src="images/image2.png" width="400">
-<figcaption>Figure 2. The alternative official Unity Learn tutorial that I found and used.</figcaption>
-</figure>
+        <p>
+        I already had some previous experience with Unity, so I skipped the step of downloading Unity Hub and the Unity Editor.
+        I already had both installed and also had a Unity account.
+        </p>
 
-</div>
+        <img src="images/image3.png" width="500">
+        <figcaption>Figure 3. The Unity version installed on my computer.</figcaption>
 
-<h2>Step 1: Check Unity Version</h2>
+        <h2>Step 2: Download and Create Essentials Pathway Project</h2>
 
-<p>
-I already had some previous experience with Unity, so I skipped the step of downloading Unity Hub and the Unity Editor.
-I already had both installed and also had a Unity account.
-</p>
+        <p>
+        I could not find the "Get Started With Unity" template mentioned in the tutorial. However, I found the "Essentials Pathway" template in the Learning section of Unity Hub, which provides similar beginner guidance and in-Editor tutorials. I selected this template and started downloading the required files to create the project.
+        </p>
 
-<img src="images/image3.png" width="500">
-<p><em>Figure 3. The Unity version that I had installed on my computer.</em></p>
+        <img src="images/image4.png" width="500">
+        <figcaption>Figure 4. Downloading and selecting the Essentials Pathway template in Unity Hub.</figcaption>
 
-</body>
+        <h2>Step 3: Review the tutorial list and define the learning focus</h2>
+        <p>
+        I reviewed the course list and understood that it covers topics from the interface and 3D to audio, scripting, and 2D, and finally publishing the project. I chose to mainly focus on the audio section because I had not used spatial audio before.
+        </p>
+        <img src="images/image12.png" height="300">
+        <figcaption>Figure 5. The tutorial list showing the course structure and learning pathway.</figcaption>
+
+        <h2>learn about audio in unity</h2>
+        <h3>Step1: Check Audio Listener on Main Camera</h3>
+        <img src="images/image5.png" height="300">
+
+        <h3>Step2: Add boiling_pot to the scene</h3>
+        <img src="images/image6.png" width="500">
+
+        <h3>Step3: Add audio to the boiling_pot</h3>
+        <p>I added an Audio Source component to the boiling_pot and used the bubbling sound as the audio source. I also enabled the loop option.</p>
+        <img src="images/image7.png" width="500">
+
+        <h3>Step4: Change the Spatial Blend in the Audio Source</h3>
+        <p>When I changed the Spatial Blend value to 1 and ran the scene, it felt like magic because I could hear the volume change depending on distance and direction.</p>
+        
+        <img src="images/image8.png" width="500">
+
+        <h3>Step5: Add background music for the scene</h3>
+        <p>I added another Audio Source to the scene and selected background music for it.</p>
+        <img src="images/image9.png" width="500">
+
+        <h3>Step6: Add random bird sounds outside</h3>
+        The tutorial video couldn't be opened, so I followed the written instructions instead. First, I created an Audio Source and placed it outside the window. Then I selected a bird sound for it and changed it to spatial audio. Finally, I disabled Play On Awake to make sure it would not play continuously and added the “Play Sound at Random Intervals” component.
+
+        <img src="images/image10.png" width="500">
+
+         <p class="problem"><b>Problem:</b> Then I tried to add more sound sources, but I found that even though I rotated them, the icons still looked the same. I am not sure whether I successfully changed the direction of the audio.</p>
+
+        <img src="images/image11.png" width="500">
+    </body>
 </html>
-
-<h2>Step 2: Download and Create Essentials Pathway Project</h2>
-
-<p>
-I could not find the "Get Started With Unity" template mentioned in the tutorial. However, I found the "Essentials Pathway" template in the Learning section of Unity Hub, which provides similar beginner guidance and in-Editor tutorials. I selected this template and started downloading the required files to create the project.
-</p>
-
-<img src="images/image4.png" width="500">
-<p><em>Figure 4. Downloading and selecting the Essentials Pathway template in Unity Hub.</em></p>
