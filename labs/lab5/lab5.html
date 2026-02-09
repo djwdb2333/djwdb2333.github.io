@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab HW 5</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+
+<body>
+
+    <div class="header-bar">
+        <h1>Lab HW 5: Full locomotion technique implementation</h1>
+        <a class="back-link" href="../../index.html">Back</a>
+    </div>
+
+    <h2>1. MPU6050 testing, data analysis, and data transmission</h2>
+
+    <h3>Step 1: Test the MPU6050 on Arduino Uno</h3>
+    <p>
+    First, I tested the MPU6050 using an Arduino Uno board. I chose Arduino Uno for the initial test because it is simple and stable to use, and the code can be uploaded quickly. This helped me check whether the sensor worked correctly and saved time during debugging.
+    </p>
+
+    <h3>Step 2: Analyze vertical acceleration data to detect steps</h3>
+
+    <h4>Raw data analysis</h4>
+    <p>
+    I then held the MPU6050 in my hand and repeatedly lifted my arm quickly to simulate a walking motion. The acceleration changes in the vertical direction were recorded and visualized.
+    </p>
+    <img src="images/image11.gif" width="400">
+
+    <p>
+    By observing how the values changed during walking-in-place simulation, it can be seen that when the sensor is stationary, the data fluctuation is very small. When sudden movement occurs, peak values appear. However, these peaks contain significant noise and are not sufficiently clean for direct use.
+    </p>
+
+    <p>Data variation when stationary: </p>
+    <img src="images/image12.png" width="400">
+
+    <p>Data variation during movement:</p>
+    <img src="images/image13.png" width="400">
+
+    <h4>Data denoising</h4>
+    <p>I implemented two layers of noise reduction in the Arduino code.</p>
+    <p>1. Noise filtering</p>
+    <p>By using an alpha value of 0.9, exponential smoothing was applied to the data. This step effectively filtered out high-frequency jitter and noise.</p>
+
+    <img src="images/image14.png" width="600">
+
+    <p>2. Prevent multiple triggers using a time lock</p>
+    <p>Considering that the average adult walking speed is about 2.4–4 mph, which corresponds to approximately 110–125 steps per minute, I used the formula step frequency = 60000 / interval(ms). Based on this, I determined that setting unsigned long minStepInterval = 500 provides a stable threshold to prevent multiple false step detections.</p>
+
+    <img src="images/image15.png" width="600">
+
+    <p>Finally, I used a simulated step counter to test whether the sensor detection was accurate. The result was stable and reliable.</p>
+    
+    <img src="images/image16.png" width="300">
+
+    <img src="images/image17.gif" width="600">
+    <h3>Step 3: Transfer the code to ESP32</h3>
+    <p>
+    After confirming that the sensor worked correctly, I transferred the code to the ESP32. I used ESP32 because it has built-in WiFi and can connect to the same network as the Unity project. This allows real-time data communication between the hardware and the software.
+    </p>
+
+    <p>1. Use WiFi AP mode</p>
+    <p>To enable data transmission, it is very important to ensure that the Arduino and Unity are under the same IP network. Since mobile signal is unavailable in many areas of Saclay and a mobile hotspot cannot be used, I chose to use the ESP32 in AP mode to provide a local network for the devices.</p>
+
+    <img src="images/image18.png" width="400">
+
+    <p>2. Convert motion data into speed</p>
+    <p>In the previous tests on the Arduino Uno, the system could only detect each movement event, but this value could not be directly mapped to a usable movement speed. Therefore, I calculated the time interval between two movement events in Arduino and mapped this interval to speed: the shorter the interval, the faster the speed. I also applied smoothing again to prevent sudden changes in the data.</p>
+
+    <img src="images/image19.png" width="400">
+
+    <h3>Step 4: Establish communication between ESP32 and Unity via WebSocket</h3>
+    <p>
+    Finally, I used WebSocket to send data from the ESP32 to Unity. In Unity, I created an empty GameObject called ESP32_manager to receive and process the data sent by the ESP32. 
+    </p>
+    <img src="images/image20.png" width="400">
+
+    <h2>2. Map sensor data to character movement</h2>
+    <p>Then, in Unity, I received the data sent by the ESP32 through the OVRCameraRig and used the user’s viewing direction as the forward movement direction.</p>
+    <img src="images/image21.png" width="400">
+    <p>During testing, I found that the character’s movement sometimes became jerky because the data was not sent continuously, causing sudden stops. To solve this, I added three values in the Arduino code: “MOVE_START”, “MOVE_UPDATE”, and “MOVE_STOP”. When the user starts moving, Arduino sends “MOVE_START” to Unity and the character begins to move. “MOVE_UPDATE” continuously updates the movement speed while the user is walking. When the user stops moving in real life for more than the stopTimeout (1000 ms), Arduino sends “MOVE_STOP”, and Unity then stops the character’s movement. This creates a short buffer before stopping, which helps reduce discomfort and prevents motion sickness.</p>
+
+    <img src="images/image23.gif" width="600">
+
+    <img src="images/image4.gif" width="400">
+
+    <h2>3. Build the project on the VR headset</h2>
+    <p>
+    Since I do not have my own VR headset for testing, I borrowed a Quest 3S from a friend for one afternoon. After turning on developer mode on the Quest and connecting it to my MacBook, the device was successfully recognized. I clicked “Build and Run” in Unity, and the project was built successfully in about five minutes.
+    </p>
+    <img src="images/image3.png" width="400">
+    <p></p>
+    <img src="images/image2.png" width="600">
+
+    <h2>Problems summary</h2>
+    <h3>1. Ground collision problem</h3>
+    <p>
+    During the initial test in the simulator, I found that when the character walked onto the slope in the second stage, the position on the Y axis could not follow the slope correctly. At first I used a Character Controller and tested the movement with WASD on a 3D map, and everything worked well. After that I added it to the OVRCameraRigInteraction. However, after running the scene, the trigger zones of each scene could not be activated.
+    </p>
+
+    <img src="images/image1.png" width="400">
+
+    <p>
+    After searching online, I learned that the Character Controller may override or ignore some colliders, so the object could not be detected by the trigger zones correctly.
+    </p>
+
+    <h3>2. Communication problem</h3>
+    <p>
+    After building the project on the Quest 3S, I found that the headset could not establish a connection with the WebSocket. In the Arduino console, the message “Unity connected” never appeared, which means the connection between Unity and ESP32 was not successfully established. However, due to limited time, I had to return the Quest headset. Therefore, I first needed to analyze the problem and find possible solutions before testing again in the next build.
+
+    <h4>Possible reason 1: Unstable connection when ESP32 is using AP mode</h4>
+    <p>I assume the most possible reason is that the ESP32 was running in AP (hotspot) mode, which may cause unstable network connection. On the Quest WiFi connection page, it always showed “no internet connection”. So I think that when the Quest headset connects to the WiFi provided by ESP32, the network may not be stable enough to support continuous WebSocket communication.</p>
+
+    <h4>Possible reason 2: WebSocket may not be fully compatible with Quest 3</h4>
+    <p>I saw a comment on a forum from a user named JakeMaier. He mentioned that WebSocket may have network permission issues on Quest 3, which could prevent successful communication.</p>
+
+    <img src="images/image5.png" width="600">
+
+    <h2>Solutions for the communication problem</h2>
+
+    <h3>Method 1: Let ESP32 and Quest connect to the same mobile hotspot</h3>
+    <p>This method is to test whether the AP hotspot mode causes unstable connection. By using a mobile hotspot with internet connection, I can check whether communication can work normally when both devices are connected to the same network.</p>
+
+    <h3>Method 2: Use MQTT for communication</h3>
+    <p>As JakeMaier mentioned, if WebSocket is not compatible with Quest 3, then even if WiFi is connected, communication may still fail. He said that he successfully used MQTT to achieve communication, so this can be considered as the second direction to try.</p>
+
+    <img src="images/image6.png" width="400">
+
+    <h3>Method 3: Use HTTP with a server as a bridge</h3>
+    <p>I found a project on GitHub called “<a href="https://github.com/SHINIK90/Bilateral-Mixed-Reality-With-Arduino">Bilateral Mixed Reality With Arduino</a>”. This project uses a computer as a bridge instead of connecting Quest and ESP32 directly. It shows that Quest has no problem with HTTP communication. However, HTTP may be slower than WebSocket, and the data needs to go through ESP32 to the server and then to Quest, so the delay may be higher.</p>
+
+    <img src="images/image7.png" width="600">
+
+    <h3>Method 4: Use Bluetooth connection</h3>
+    <p>I saw <a href="https://www.youtube.com/watch?v=P2LWnZrdANU">a video on YouTube</a> that connects ESP32 and Quest 3 using Bluetooth. However, I also saw many posts on the Arduino forum saying that Bluetooth connection may also have compatibility problems.</p>
+
+    <img src="images/image8.png" width="600">
+
+    <h2>Additional findings</h2>
+    <p>   
+    During my research process, I unexpectedly discovered a series of studies about IMU by <a href="https://scholar.google.com/citations?user=pVoC0_cAAAAJ&hl=en">Sebastian OH Madgwick</a>. In his paper <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=pVoC0_cAAAAJ&cstart=20&pagesize=80&citation_for_view=pVoC0_cAAAAJ:Y0pCki6q_DkC">“Recovering kinematic states of three degrees of freedom joints in open link chains, using accelerometers - a new method for human motion capture”</a>, he pointed out that using IMU is a low-cost, low-power, and flexible method for motion capture.
+
+    In this project (<a href="'https://www.youtube.com/watch?v=6ijArKE8vKU&t=1s">demo video</a>), Sebastian not only achieved gait detection, but also tracked spatial coordinates and mapped them into a coordinate system. From <a href="https://forum.arduino.cc/t/3d-tracking-with-imu/428897">a post on the Arduino forum</a>, I learned that this result was achieved using MATLAB instead of Arduino. MATLAB provides powerful data processing and visualization capabilities. In the future, I would like to explore this direction further.
+    </p>
+
+    <img src="images/image9.png" width="600">
+    <img src="images/image10.png" width="600">
+
+
+    
+</body>
+</html>

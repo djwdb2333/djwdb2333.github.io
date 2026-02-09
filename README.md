@@ -2,7 +2,7 @@
 
 Student: Zeyu Liang  
 
-Instructor: Daniel Medeiros  
+Instructor: Daniel Pires De Sa Medeiros  
 
 This repository contains my course blog for the course
 Human-Computer Interaction for Mixed Reality.
